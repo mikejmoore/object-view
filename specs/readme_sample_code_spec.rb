@@ -35,9 +35,12 @@ describe "README" do
     ul.add Li.new("First Element")
     ul.add Li.new("Second Element")
     ul.add Li.new("Third Element")
+    
+    # Make link
+    div.add Link.new("/home", "Home Page")
 
     html = page.render()
 
-    puts "Done"
+    puts "HTML: #{html}"
   end
 end
