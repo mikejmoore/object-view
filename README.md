@@ -64,6 +64,9 @@ page.render() produces:
                </tr>
             </tbody>
          </table>
+         <a href="/home">
+         Home Page
+         </a>
       </div>
       <ul>
          <li>
@@ -78,5 +81,6 @@ page.render() produces:
       </ul>
    </body>
 </html>
+
 ```
 
