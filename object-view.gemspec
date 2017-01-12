@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.email       = 'm.moore.denver@gmail.com'
   s.name        = 'object-view'
   s.description = 'Object oriented approach to generating HTML content'
-  s.version     = '0.4.0'
+  s.version     = '0.4.1'
   s.date        = '2014-03-10'
   s.homepage  = 'https://github.com/mikejmoore/object-view'
   s.license   = 'MIT'

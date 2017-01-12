@@ -36,8 +36,47 @@ ul = page.body.add Ul.new
 ul.add Li.new("First Element")
 ul.add Li.new("Second Element")
 ul.add Li.new("Third Element")
-
-
-
-
 ```
+
+page.render() produces:
+```html
+<html>
+   <head>
+      <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+   </head>
+   <body>
+      <div style="border: 1px solid black; margin-left: 10px">
+         <table class=".borderedTable">
+            <tbody>
+               <tr>
+                  <td>Cell 1</td>
+                  <td>Cell 2</td>
+                  <td>Cell 3</td>
+               </tr>
+               <tr>
+                  <td><span>Cell 1
+                     </span>
+                  </td>
+                  <td>
+                     <div>Cell 2</div>
+                  </td>
+                  <td>Cell 3</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <ul>
+         <li>
+            First Element
+         </li>
+         <li>
+            Second Element
+         </li>
+         <li>
+            Third Element
+         </li>
+      </ul>
+   </body>
+</html>
+```
+
