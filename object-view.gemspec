@@ -8,10 +8,15 @@ Gem::Specification.new do |s|
   s.homepage  = 'https://github.com/mikejmoore/object-view'
   s.license   = 'MIT'
   s.summary     = "Object oriented views"
-  s.authors     = ["Mike Moore"]
   s.files = Dir.glob("{bin,lib}/**/*")
   s.files <<    "lib/object_view.rb"
   s.require_paths = ["lib", "lib/object_view"]
   s.license       = 'MIT'
+  
+  s.add_development_dependency 'byebug', '~> 6.0'
+  s.add_development_dependency 'nokogiri', '~> 1.6.8'
+  s.add_development_dependency 'rspec', '~> 3.0'
+  s.add_development_dependency 'rspec-its', '1.2'
+  
 end 
 

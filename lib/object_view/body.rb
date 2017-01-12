@@ -3,7 +3,6 @@ module ObjectView
 
   class Body < Element
     def initialize
-      puts "Creating body"
       super
       @tag = "body"
     end

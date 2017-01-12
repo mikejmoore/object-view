@@ -1,15 +1,16 @@
-require 'object_view/page.rb' 
-require 'object_view/element.rb' 
-require 'object_view/body'
-require 'object_view/head'
-require 'object_view/header'
-require 'object_view/javascript_file'
-require 'object_view/div'
-require 'object_view/span'
-require 'object_view/javascript'
-require 'object_view/table'
-require "object_view/link"
-require "object_view/chart_data"
+require_relative 'object_view/page.rb' 
+require_relative 'object_view/element.rb' 
+require_relative 'object_view/body'
+require_relative 'object_view/head'
+require_relative 'object_view/header'
+require_relative 'object_view/javascript_file'
+require_relative 'object_view/div'
+require_relative 'object_view/span'
+require_relative 'object_view/javascript'
+require_relative 'object_view/table'
+require_relative "object_view/link"
+require_relative "object_view/ul"
+require_relative "object_view/chart_data"
 
 
 module ObjectView

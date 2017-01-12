@@ -1,10 +1,10 @@
-require_relative './object_view_error'
+require_relative './errors/illegal_child_element_error'
 
 module ObjectView 
 
   class Element 
-    attr_accessor :tag, :attributes, :single_line, :acceptable_children
-    attr_reader   :children
+    attr_accessor :tag, :attributes, :single_line
+    attr_reader   :children, :acceptable_children
   
     def initialize
       @tab = "  "
@@ -30,13 +30,16 @@ module ObjectView
       else
         return found
       end
-        
     end
   
     def attr(name, value)
       @attributes[name] = value
     end
   
+    def acceptable_children=(value)
+      @acceptable_children = value
+    end
+    
     def on_click=(value)
       self.attr("onclick", value)
     end
@@ -70,9 +73,8 @@ module ObjectView
           add child
         end
       else
-        raise "Parent: #{self.tag} - Attempt to add an element that is not a valid child, and not an ObjectView::Element.  Class of element: #{element_or_string.class.name}:  #{element_or_string}\nTag of parent: #{self.tag}.\nAcceptable children: #{@acceptable_children.join(',')}"
+        raise IllegalChildElementError.new "Parent: #{self.tag} - Attempt to add an element that is not a valid child, and not an ObjectView::Element.  Class of element: #{element_or_string.class.name}:  #{element_or_string}\nTag of parent: #{self.tag}.\nAcceptable children: #{@acceptable_children.join(',')}"
       end
-      
       return element_or_string
     end
     
@@ -88,7 +90,7 @@ module ObjectView
     end
     
     def <<(item)
-      self.children << item
+      self.add item
     end
 
     def render_children(indent = 0)
@@ -114,14 +116,25 @@ module ObjectView
       html = StringIO.new
       if (@attributes.length > 0)
         @attributes.each do |name, value|
-          html << " #{name}=\"#{value}\""
+          if (value.class == Hash)
+            attr_value = ''
+            value.keys.each do |key|
+              attr_value += "#{key.to_s.gsub('_', '-')}: #{value[key]}"
+              if (key != value.keys.last)
+                attr_value += "; "
+              end
+            end
+            html << " #{name}=\"#{attr_value}\""
+          else
+            html << " #{name}=\"#{value}\""
+          end
         end
       end
       return html.string
     end
     
     def render(indent = 0)
-      #Rails.logger.debug "Rendering: #{self}   Tag: #{self.tag}"
+      raise "tag not defined for class: #{self.class}" if (tag == nil) || (tag.strip.length == 0)
       html = StringIO.new
       if (indent != nil)
         html << (@tab * indent) 

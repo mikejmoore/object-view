@@ -6,6 +6,7 @@ module ObjectView
     def initialize
       super()
       @tag = "table"
+      self.acceptable_children = [TBody, THead]
     end
 
     def header_row(labels = nil)
@@ -44,6 +45,7 @@ module ObjectView
       super()
       self.single_line = true
       @tag = "thead"
+      self.acceptable_children = [TRow]
     end
     
     def row
@@ -58,6 +60,7 @@ module ObjectView
     def initialize
       super()
       @tag = "tbody"
+      self.acceptable_children = [TRow]
     end
 
     def row
@@ -73,6 +76,7 @@ module ObjectView
     def initialize
       super()
       @tag = "tr"
+      self.acceptable_children = [TCell, THeadCell]
     end
   
     def cell(content = nil)
@@ -89,6 +93,7 @@ module ObjectView
     def initialize
       super()
       @tag = "tr"
+      self.acceptable_children = [THeadCell]
     end
 
     def cell(content = nil)
@@ -107,6 +112,7 @@ module ObjectView
       super()
       self.single_line = true
       @tag = "td"
+      self.acceptable_children = [Table, Div, Span, Javascript, Link, String]
     end
   end
   
