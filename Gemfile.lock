@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    object-view (0.4.1)
+    object-view (0.4.8)
 
 GEM
   remote: http://rubygems.org/

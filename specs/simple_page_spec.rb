@@ -11,7 +11,7 @@ describe ObjectView::Page do
     expect(html_tags.length).to eq 1
     expect(html_doc.xpath("//html/body").length).to eq 1
     expect(html_doc.xpath("//html/head").length).to eq 1
-    expect(html_doc.xpath("//html/body").children.length).to eq 1
+    expect(html_doc.xpath("//html/body").children.length).to eq 0
   end
   
   it "Can add elements to body of page" do
@@ -33,6 +33,16 @@ describe ObjectView::Page do
     expect{
       page.head.add ObjectView::Div.new
     }.to raise_error(ObjectView::IllegalChildElementError)
+  end
+  
+  it "Can add stylesheet to head section" do
+    page = ObjectView::Page.new
+    stylesheet = page.head.add_stylesheet("/some_style.css")
+    html_text = page.render
+    html_doc = Nokogiri::HTML(html_text)
+
+    expect(html_doc.xpath("//html/head").length).to eq 1
+    expect(html_doc.xpath("//html/head/link").length).to eq 1
   end
   
 end

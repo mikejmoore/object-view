@@ -10,6 +10,7 @@ module ObjectView
       attr("type", "text/javascript")
       attr("src", file)
       @tag = "script"
+      self.add " "
     end
   
   

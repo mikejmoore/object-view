@@ -112,7 +112,7 @@ module ObjectView
       super()
       self.single_line = true
       @tag = "td"
-      self.acceptable_children = [Table, Div, Span, Javascript, Link, String]
+      self.acceptable_children = [Table, Div, Span, Javascript, Link, String, Header, Paragraph]
     end
   end
   

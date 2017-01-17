@@ -2,19 +2,26 @@ require_relative './errors/illegal_child_element_error'
 
 module ObjectView 
 
-  class Element 
-    attr_accessor :tag, :attributes, :single_line
+  class Element < Hash
+    attr_accessor :tag, :single_line
     attr_reader   :children, :acceptable_children
   
     def initialize
       @tab = "  "
       @single_line = false
       @tag = nil
-      @attributes = Hash.new
       @children = []
       @acceptable_children = [String, Element]
     end
   
+    def attributes
+      return self
+    end
+    
+    def style
+      self[:style] = {} if (!self[:style])
+      return self[:style]
+    end
   
     def find_element_with_tag(tag)
       found = []
@@ -33,7 +40,7 @@ module ObjectView
     end
   
     def attr(name, value)
-      @attributes[name] = value
+      self[name] = value
     end
   
     def acceptable_children=(value)
@@ -66,14 +73,16 @@ module ObjectView
     end
   
     def add(element_or_string)
-      if (self.is_acceptable_child?(element_or_string))
-        @children << element_or_string
-      elsif (element_or_string.is_a?(Array))
-        element_or_string.each do |child|
-          add child
+      if (element_or_string)
+        if (self.is_acceptable_child?(element_or_string))
+          @children << element_or_string
+        elsif (element_or_string.is_a?(Array))
+          element_or_string.each do |child|
+            add child
+          end
+        else
+          raise IllegalChildElementError.new "Parent: #{self.tag} - Attempt to add an element that is not a valid child, and not an ObjectView::Element.  Class of element: #{element_or_string.class.name}:  #{element_or_string}\nTag of parent: #{self.tag}.\nAcceptable children: #{@acceptable_children.join(',')}"
         end
-      else
-        raise IllegalChildElementError.new "Parent: #{self.tag} - Attempt to add an element that is not a valid child, and not an ObjectView::Element.  Class of element: #{element_or_string.class.name}:  #{element_or_string}\nTag of parent: #{self.tag}.\nAcceptable children: #{@acceptable_children.join(',')}"
       end
       return element_or_string
     end
@@ -114,8 +123,8 @@ module ObjectView
   
     def render_attributes
       html = StringIO.new
-      if (@attributes.length > 0)
-        @attributes.each do |name, value|
+      if (self.keys.length > 0)
+        self.each do |name, value|
           if (value.class == Hash)
             attr_value = ''
             value.keys.each do |key|
@@ -139,26 +148,29 @@ module ObjectView
       if (indent != nil)
         html << (@tab * indent) 
       end
-      html << "<#{tag}#{render_attributes}>"
-      if (self.single_line)
-        html << "#{render_children(nil)}" 
-      else
-        if (indent == nil)
-          html <<  render_children(indent)
+      if (children.length > 0)
+        html << "<#{tag}#{render_attributes}>"
+        if (self.single_line) 
+          html << "#{render_children(nil)}" 
         else
-          html <<  render_children(indent + 1)
+          if (indent == nil)
+            html <<  render_children(indent)
+          else
+            html <<  render_children(indent + 1)
+          end
         end
-      end
-    
-    
-      if (!self.single_line)
-        html << "\n"
-        if (indent != nil)
-          html << @tab * indent 
+
+        if (!self.single_line)
+          html << "\n"
+          if (indent != nil)
+            html << @tab * indent 
+          end
         end
+        html << "</#{tag}>\n"
+      else
+        html << "<#{tag}#{render_attributes}/>"
       end
-      
-      html << "</#{tag}>\n"
+
       return html.string
     end
   
