@@ -14,6 +14,7 @@ require_relative "object_view/ul"
 require_relative "object_view/chart_data"
 require_relative "object_view/paragraph"
 require_relative "object_view/nav"
+require_relative "object_view/image"
 
 
 module ObjectView

@@ -1,3 +1,5 @@
+require_relative './header'
+
 module ObjectView 
 
   class Table < Element 
@@ -112,7 +114,7 @@ module ObjectView
       super()
       self.single_line = true
       @tag = "td"
-      self.acceptable_children = [Table, Div, Span, Javascript, Link, String, Header, Paragraph]
+      self.acceptable_children = [Table, Div, Span, Javascript, Link, String, Header, Paragraph, Ul, Image]
     end
   end
   
